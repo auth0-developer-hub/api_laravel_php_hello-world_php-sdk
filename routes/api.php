@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MessagesController;
+use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,6 @@ Route::group(['prefix' => 'messages'], function ($router) {
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
-        Route::get('admin', [MessagesController::class, 'showAdminMessage']);
+        Route::get('admin', [MessagesController::class, 'showAdminMessage'])->can('read-admin-messages', Message::class);
     });
 });

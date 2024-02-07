@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -32,6 +33,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (MethodNotAllowedHttpException $e) {
             return $this->apiError('Not Allowed Http Method', 405);
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e) {
+            return $this->apiError('Insufficient permissions to access resource', 403);
         });
 
         $this->renderable(function (ApiException $e) {
