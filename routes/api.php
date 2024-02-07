@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'messages'], function ($router) {
     Route::get('public', [MessagesController::class, 'showPublicMessage']);
-    Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
-    Route::get('admin', [MessagesController::class, 'showAdminMessage']);
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('protected', [MessagesController::class, 'showProtectedMessage']);
+        Route::get('admin', [MessagesController::class, 'showAdminMessage']);
+    });
 });
